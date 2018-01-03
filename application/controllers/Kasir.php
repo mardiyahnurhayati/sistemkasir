@@ -38,19 +38,12 @@ class  Kasir extends CI_Controller {
         $this->load->view('kasir/header_kasir');
         $this->load->view('kasir/home_kasir',$data);
     }
-    function loadata(){
-        $data['id_transaksi']=$this->input->post('id_transaksi');
-        $data['tgl_transaksi']=$this->input->post('tgl_transaksi');
-        $data['id_Pelanggan']=$this->input->post('id_Pelanggan');
-        $data['id_Kendaraan']=$this->input->post('id_Kendaraan');
-        $data['id_Tarif']=$this->input->post('id_Tarif');
-        $data['jamrental']=$this->input->post('masuk');
-    }
+
     public function insert_transaksi(){
-        $this->load->model('R_transaksi');
+        $this->load->model('m_data');
         $data = array(
             'id_transaksi' => $this->input->post('id_transaksi'),
-            'id_kasir' => $this->input->post('id_kasir'),
+            'id_kasir' => $this->session->userdata('id_kasir'),
             'tgl_transaksi' => $this->input->post('tgl_transaksi'),
             'id_pelanggan' => $this->input->post('id_Pelanggan'),
             'platnomor' => $this->input->post('id_Kendaraan'),
@@ -61,7 +54,7 @@ class  Kasir extends CI_Controller {
             'transaksi_total' => $this->input->post('transaksi_total'),
             'transaksi_status' => $this->input->post('"mulai"')
              );
-        $data = $this->R_transaksi->insert('tb_transaksi', $data);
+        $data = $this->m_data->insert('tb_transaksi', $data);
         redirect(base_url(),'refresh');
     }
     public function get_tarif(){
@@ -69,16 +62,25 @@ class  Kasir extends CI_Controller {
         echo json_encode($data);
     }
     function cetak(){
-        $data['tgl_transaksi']=$this->input->post('tgl_transaksi');
-        $data['id_Pelanggan']=$this->input->post('id_Pelanggan');
-        $data['id_Kendaraan']=$this->input->post('id_Kendaraan');
-        $data['id_Tarif']=$this->input->post('id_Tarif');
-        $data['jamrental']=$this->input->post('masuk');
-        $data['jamkembali']=$this->input->post('keluar');
+         $this->load->model('m_data');
+        $data = array(
+            'id_kasir' => $this->session->userdata('Kasir_id'),
+            'tgl_transaksi' => $this->input->post('tgl_transaksi'),
+            'id_pelanggan' => $this->input->post('id_Pelanggan'),
+            'platnomor' => $this->input->post('id_Kendaraan'),
+            'jam_rental'=>$this->input->post('masuk'),
+            'tgl_kembali'=>$this->input->post('masuk'),
+            'jam_kembali'=>$this->input->post('masuk'),
+            'id_tarif'=>$this->input->post('id_Tarif'),
+            'transaksi_total' => $this->input->post('transaksi_total'),
+            'transaksi_status' => $this->input->post('"mulai"')
+             );
+        $data = $this->m_data->insert('tb_transaksi', $data);
+        $last_insert_id=$this->db->insert_id();
         
-        
+        $data=$this->m_data->get_rincian_tarif($last_insert_id);
 
-        $html=$this->load->view('kasir/nota', $data, true);
+        $html=$this->load->view('kasir/nota',$data, true);
         $pdfFilePath = "output_pdf_name.pdf";
  
         //load mPDF library
@@ -97,5 +99,21 @@ class  Kasir extends CI_Controller {
         $tambah_tanggal=mktime(0,0,0,date('H')+$lama);
         $data['tgl_kembali']=date('d-m-Y',$tambah_tanggal);
         
+    }
+    function pelanggan(){
+        $this->load->view('kasir/header_kasir');
+        $this->load->view('kasir/tambah_pelanggan');
+    }
+    public function insert_pelanggan(){
+        $this->load->model('m_data');
+        $data = array(
+            'nama' => $this->input->post('nama'),
+            'univ' => $this->input->post('univ'), 
+            'fakultas' => $this->input->post('fakultas'),
+            'alamat' => $this->input->post('alamat'),
+            'nohp' => $this->input->post('hp'),
+             );
+        $data = $this->m_data->insert('tb_pelanggan', $data);
+        redirect('Kasir');
     }
 }

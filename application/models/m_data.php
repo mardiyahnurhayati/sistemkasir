@@ -100,6 +100,14 @@ class M_data extends CI_Model{
         return $query->result();
     }
 
+    function get_rincian_transaksi($id){
+      $this->db->join('tb_pelanggan c', 'a.id_pelanggan = c.ID_pelanggan');
+        $this->db->join('tb_kendaraan b', 'c.platnomor = b.platnomor');
+        $this->db->join('tb_kendaraan b', 'c.platnomor = b.platnomor');
+      $this->db->where('t.id_transaksi',$id);
+    return $this->db->get('tb_transaksi c')->row();
+    }
+
     function getTarif(){
         $this->db->select("tb_tarif.ID_TARIF AS id_tarif,tb_merk.MERK_MOTOR AS merk, tb_jam.JAM AS jam, tb_tarif.HARGA AS harga");
         $this->db->from('tb_merk');
@@ -110,8 +118,9 @@ class M_data extends CI_Model{
     }
 
     function get_rincian_tarif($id){
-      $this->db->where('id_tarif',$id);
-    return $this->db->get('tb_tarif')->row();
+      $this->db->join('tb_jam j','j.id_jam=t.id_jam');
+      $this->db->where('t.id_tarif',$id);
+    return $this->db->get('tb_tarif t')->row();
     }
 
 

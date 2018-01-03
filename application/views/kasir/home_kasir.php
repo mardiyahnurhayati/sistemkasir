@@ -10,7 +10,7 @@
 			 <div class="form-group pull-right">
 			    	
 			      		<button type="button" class="btn btn-primary" 
-			      		id="tambah" style="background-color: #30a5ff" onclick="<?php echo site_url('Pelanggan/insert_pelanggan')?>">
+			      		id="tambah" style="background-color: #30a5ff" onclick="<?php echo site_url('Kasir/pelanggan')?>">
 			      		   Tambah Pelanggan</button>
 			    </div>
 			 </div>
@@ -23,7 +23,7 @@
 			      <label class="control-label col-md-3" 
 			      	for="tgl_transaksi">Tgl.Transaksi :</label>
 			      <div class="col-md-5">
-			        <input type="text" class="form-control" 
+			        <input type="text" class="form-control" id="tgl_transaksi"
 			        	name="tgl_transaksi" value="<?= date('d-m-Y') ?>" 
 			        	readonly="readonly">
 			      </div>
@@ -52,7 +52,7 @@
 			        	autocomplete="off">
 			        	<datalist id="list_Kendaraan">
 			        	<?php foreach ($motor as $value) {?>
-			        		<option value="<?=$value->PLATNOMOR?>"><?=$value->MERK_MOTOR?></option><?php } ?>
+			        		<option value="<?=$value->platnomor?>"><?=$value->merk?></option><?php } ?>
 			        	</datalist>
 			      </div>
 			    </div>
@@ -76,7 +76,7 @@
 			        	autocomplete="off">
 			        	<datalist id="list_Tarif">
 			        	<?php foreach ($tarif as $value) {?>
-			        		<option value="<?=$value->ID_TARIF?>"><?=$value->MERK_MOTOR?></option><?php } ?>
+			        		<option value="<?=$value->id_tarif?>"><?=$value->merk?></option><?php } ?>
 			        	</datalist>
 			      </div>
 			    </div>
@@ -138,7 +138,7 @@
 			        	name="kembali" id="kembali" placeholder="0"
 			        	readonly="readonly">
 				    </div>
-				    <a class="btn btn-primary pull-right" href="pkasir/cetak">Cetak Nota</a>
+				    <a type="submit" name="submit" class="btn btn-primary pull-right" href="Kasir/cetak">Cetak Nota</a>
 				</div>
 
 	      	</div><!-- end col-md-4 -->
