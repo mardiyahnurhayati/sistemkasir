@@ -92,7 +92,7 @@ class M_data extends CI_Model{
     }
 
     function getTransaksi(){
-        $this->db->select("C.ID_TRANSAKSI, A.NAMA, C.PLATNOMOR,C.JAM_RENTAL,C.JAM_KEMBALI, C.TGL_TRANSAKSI, C.TGL_KEMBALI, C.TRANSAKSI_TOTAL, C.TRANSAKSI_STATUS");
+        $this->db->select("C.ID_TRANSAKSI, A.NAMA, C.PLATNOMOR,C.JAM_RENTAL, C.JAM_KEMBALI, C.TGL_TRANSAKSI, C.TGL_KEMBALI, C.TRANSAKSI_TOTAL, C.TRANSAKSI_STATUS");
         $this->db->from('tb_pelanggan AS A');// I use aliasing make joins easier
         $this->db->join('tb_transaksi AS C', 'A.id_pelanggan = C.ID_pelanggan');
         $this->db->join('tb_kendaraan AS B', 'C.platnomor = B.platnomor');
@@ -100,12 +100,14 @@ class M_data extends CI_Model{
         return $query->result();
     }
 
-    function get_rincian_transaksi($id){
-      $this->db->join('tb_pelanggan c', 'a.id_pelanggan = c.ID_pelanggan');
-        $this->db->join('tb_kendaraan b', 'c.platnomor = b.platnomor');
-        $this->db->join('tb_kendaraan b', 'c.platnomor = b.platnomor');
-      $this->db->where('t.id_transaksi',$id);
-    return $this->db->get('tb_transaksi c')->row();
+    function getLaporan(){
+        $this->db->select("B.PLATNOMOR, A.MERK_MOTOR, C.TRANSAKSI_TOTAL, SUM(C.TRANSAKSI_TOTAL) AS total, COUNT(B.PLATNOMOR) AS total_sewa ");
+        $this->db->from('tb_transaksi AS C');// I use aliasing make joins easier
+        $this->db->join('tb_kendaraan AS B', 'B.platnomor = C.platnomor');
+        $this->db->join('tb_merk AS A', 'B.id_merk = A.id_merk');
+        $this->db->group_by('B.PLATNOMOR, A.MERK_MOTOR');
+        $query = $this->db->get();
+        return $query->result();
     }
 
     function getTarif(){
@@ -118,9 +120,8 @@ class M_data extends CI_Model{
     }
 
     function get_rincian_tarif($id){
-      $this->db->join('tb_jam j','j.id_jam=t.id_jam');
-      $this->db->where('t.id_tarif',$id);
-    return $this->db->get('tb_tarif t')->row();
+      $this->db->where('id_tarif',$id);
+    return $this->db->get('tb_tarif')->row();
     }
 
 
@@ -129,10 +130,17 @@ class M_data extends CI_Model{
       $this->db->from('tb_pelanggan AS A');// I use aliasing make joins easier
       $this->db->join('tb_transaksi AS C', 'A.id_pelanggan = C.ID_pelanggan');
       $this->db->join('tb_kendaraan AS B', 'C.platnomor = B.platnomor');
-      $this->db->where('MY-DATE_FIELD >= NOW() - INTERVAL 1 DAY');
+      $this->db->where('order_date BETWEEN '.$_POST["from_date"]."' AND '".$_POST["to_date"].'  "');
       $query = $this->db->get();
       return $query->result();
 
-    }   
+    } 
+
+    function filter(){
+      $this->db->select("SELECT * FROM tb_transaksi 
+           WHERE order_date BETWEEN '".$_POST["from_date"]."' AND '".$_POST["to_date"]."'  ");
+      $query = $this->db->get();
+        return $query->result();
+    }  
 }
 ?>

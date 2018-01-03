@@ -8,44 +8,54 @@
         <div class="container">
         <div class="panel panel-default">  
             <div class="panel panel-body">
-              <div class="panel panel-body">
-            <form method="post" action="<?php echo base_url()."Kasir/insert_pelanggan"; ?>">
+            <form>
           <div class="form-group row">
-            <label for="nama" class="col-sm-2 col-form-label">Nama</label>
-            <div class="col-sm-10">
-              <input type="text"  class="form-control" id="nama" name="nama" placeholder="">
+            <label for="idkasir" class="col-xs-2 col-form-label nota" 
+            ;">ID Pelanggan</label>
+            <div class="col-xs-10">
+              <input type="text"  class="form-control" id= placeholder="" 
+			    readonly="readonly">
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
-            <div class="col-sm-10">
-              <input type="text"  class="form-control" id="alamat" name="alamat" placeholder="">
+            <label for="nama" class="col-sm-2 col-form-label nota">Nama</label>
+            <div class="col-xs-10">
+              <input type="text"  class="form-control" id="nama" placeholder="">
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="univ" class="col-sm-2 col-form-label">Universitas</label>
+            <label for="alamat" class="col-sm-2 col-form-label nota">Alamat</label>
             <div class="col-sm-10">
-              <input type="text"  class="form-control" id="univ" name="univ" placeholder="">
+              <input type="text"  class="form-control" id="alamat" placeholder="">
             </div>
           </div>
 
           <div class="form-group row">
-            <label for="fakultas" class="col-sm-2 col-form-label">Fakultas</label>
+            <label for="univ" class="col-sm-2 col-form-label nota">Universitas</label>
             <div class="col-sm-10">
-              <input type="text"  class="form-control" id="fakultas" name="fakultas" placeholder="">
+              <input type="text"  class="form-control" id="univ" placeholder="">
             </div>
           </div>
+
           <div class="form-group row">
-            <label for="hp" class="col-sm-2 col-form-label">No HP</label>
+            <label for="fak" class="col-sm-2 col-form-label nota">Fakultas</label>
             <div class="col-sm-10">
-              <input type="text"  class="form-control" id="hp" name="hp" placeholder="">
+              <input type="text"  class="form-control" id="fak" placeholder="">
             </div>
           </div>
+
+          <div class="form-group row">
+            <label for="hp" class="col-sm-2 col-form-label nota">No HP</label>
+            <div class="col-sm-10">
+              <input type="text"  class="form-control" id="hp" placeholder="">
+            </div>
+          </div>
+
           
-          
-          <button type="submit" name="submit" class="btn btn-primary pull-right">Tambah</button>
+          <br>
+          <button type="button" class="btn btn-primary pull-right">Tambah</button>
         </form>
         </div>                      
         </div>

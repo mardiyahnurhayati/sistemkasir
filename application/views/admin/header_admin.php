@@ -19,12 +19,40 @@
 		.datepicker{z-index:1151;}
 	    </style>
 	    <script>
+	    $(document).ready(function(){ 
 		$(function(){
-		    $("#tanggal").datepicker({
-			format:'yyyy/dd/mm'
+		    $("#from_date").datepicker({
+			format:'yyyy-dd-mm'
+		    });
+		    $("#to_date").datepicker({
+		    format:'yyyy-dd-mm'
 		    });
                 });
+
+			$('#filter').click(function(){  
+	                var from_date = $('#from_date').val();  
+	                var to_date = $('#to_date').val();  
+	                if(from_date != '' && to_date != '')  
+	                {  
+	                     $.ajax({  
+	                          url:""+ _base_url + "Admin/tampil_transaksi_hari",  
+	                          method:"POST",  
+	                          data:{from_date:from_date, to_date:to_date},  
+	                          success:function(data)  
+	                          {  
+	                               $('#mytable').html(data);  
+	                          }  
+	                     });  
+	                }  
+	                else  
+	                {  
+	                     alert("Please Select Date");  
+	                }  
+	           }); 
+		});
 	    </script>
+
+	    
 	
 	<!--[if lt IE 9]>
 	<script src="js/html5shiv.js"></script>
@@ -120,7 +148,7 @@
 			<li><a href="<?php echo site_url('Admin/tampil_pelanggan')?>"><em class="fa fa-toggle-off">&nbsp;</em> Data Pelanggan</a></li>
 			<li><a href="<?php echo site_url('Admin/tampil_tarif')?>"><em class="fa fa-toggle-off">&nbsp;</em> Data Tarif</a></li>
 			<li><a href="<?php echo site_url('Admin/tampil_transaksi')?>"><em class="fa fa-toggle-off">&nbsp;</em> Data Transaksi</a></li>
-			<li><a href="<?php echo site_url('Admin/tampil_laporan')?>"><em class="fa fa-clone">&nbsp;</em> Laporan</a></li>
+			<li><a href="<?php echo site_url('Admin/tampil_laporan')?>"><em class="fa fa-clone">&nbsp;</em> Laporan Keuangan</a></li>
 			<li><a href="<?php echo site_url('Login/admin_logout')?>"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
 		</ul>
 	</div><!--/.sidebar-->

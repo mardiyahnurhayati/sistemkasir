@@ -45,7 +45,7 @@
                 <th>No</th>
                 <th>Plat</th>
                 <th>Motor</th>
-                <th>Jumlah Sewa</th>
+                <th>Jumlah Disewa (kali)</th>
                 <th>TotalBiaya</th>
                 
             </center>
@@ -53,14 +53,27 @@
 
             </thead>
         <tbody>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+           <?php 
+            $no = 1;
+            $total_pemasukan=0;
+            foreach($data as $value){?>
+            <td><?php echo $no++ ?></td>
+            <td><?php echo $value->PLATNOMOR; ?></td>
+            <td><?php echo $value->MERK_MOTOR; ?></td>
+            <td><?php echo $value->total_sewa; ?></td>
+            <td><?php echo $value->TRANSAKSI_TOTAL; ?></td>
             </tr>
+            <?php $total_pemasukan = $value->total; ?>
+            <?php }?>
                
             </tbody>
+
+
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><h1>JUMLAH</h1></td>
+            <td><?php echo $total_pemasukan; ?></td>
 
         </table>
         <br>

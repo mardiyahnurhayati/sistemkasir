@@ -25,28 +25,24 @@
            
         <div class="panel-body">
 
-            <form class="form-inline pull-left">
-                 <div class="col-sm-5">
-                    <select class="selectpicker">
-                        <option></option>
-                        <option>Minggu Ini</option>
-                        <option>Bulan Ini</option>
-                    </select>
-                </div>
-            </form>
+
 
             <form class="form-inline pull-right">
             
 
               <div class="form-group form-group-sm " >
-                <label class="control-label col-md-3"> Tanggal</label>
+            
                
                 <div class="col-md-5">
-                    <input type="text" class="form-control" id="tanggal">
-                    
+                    <input type="text" class="form-control" id="from_date">  
                 </div>
+
+                <div class="col-md-5">
+                    <input type="text" class="form-control" id="to_date">  
+                </div>
+
                  </div>
-              <button type="submit" class="btn btn-primary btn-sm">Cari</button>
+              <button name="filter" id="filter" type="button" value="filter" class="btn btn-primary btn-sm">Filter</button>
             </form>
                 
             <!-- /end menu select -->
@@ -95,3 +91,35 @@
     </div>
         
     </div>  <!--/.main-->
+
+    <script>  
+      $(document).ready(function(){  
+           $.datepicker.setDefaults({  
+                dateFormat: 'yy-mm-dd'   
+           });  
+           $(function(){  
+                $("#from_date").datepicker();  
+                $("#to_date").datepicker();  
+           });  
+           // $('#filter').click(function(){  
+           //      var from_date = $('#from_date').val();  
+           //      var to_date = $('#to_date').val();  
+           //      if(from_date != '' && to_date != '')  
+           //      {  
+           //           $.ajax({  
+           //                url:"filter.php",  
+           //                method:"POST",  
+           //                data:{from_date:from_date, to_date:to_date},  
+           //                success:function(data)  
+           //                {  
+           //                     $('#order_table').html(data);  
+           //                }  
+           //           });  
+           //      }  
+           //      else  
+           //      {  
+           //           alert("Please Select Date");  
+           //      }  
+           // });  
+      });  
+ </script>
