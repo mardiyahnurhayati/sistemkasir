@@ -43,7 +43,7 @@ class  Admin extends CI_Controller {
     }
 
     function tampil_kasir(){
-    	$data = $this->m_data->getKasir();
+        $data = $this->m_data->getKasir();
         $data = array('data' => $data);
         $this->load->view('admin/kasir', $data);
         $this->load->view('admin/header_admin');
@@ -51,7 +51,7 @@ class  Admin extends CI_Controller {
     }
 
     function tampil_pelanggan(){
-    	 $data['data'] = $this->m_data->GetData('tb_pelanggan');
+         $data['data'] = $this->m_data->GetData('tb_pelanggan');
         
         $this->load->view('admin/pelanggan', $data);
 
@@ -60,7 +60,7 @@ class  Admin extends CI_Controller {
     }
 
     function tampil_motor(){
-    	$query = $this->m_data->getKendaraan();
+        $query = $this->m_data->getKendaraan();
         $data['motor'] = null;
         if($query){
          $data['motor'] =  $query;
@@ -73,7 +73,7 @@ class  Admin extends CI_Controller {
     }
 
     function tampil_transaksi(){
-    	$query = $this->m_data->getTransaksi();
+        $query = $this->m_data->getTransaksi();
         $data['data'] = null;
         if($query){
          $data['data'] =  $query;
@@ -85,8 +85,21 @@ class  Admin extends CI_Controller {
         $this->load->view('admin/footer_admin');
     }
 
+    //  function tampil_transaksi_hari(){
+    //     $query = $this->m_data->getHari();
+    //     $data['data'] = null;
+    //     if($query){
+    //      $data['data'] =  $query;
+    //     }
+      
+    //     $this->load->view('admin/transaksi', $data);
+
+    //     $this->load->view('admin/header_admin');
+    //     $this->load->view('admin/footer_admin');
+    // }
+
     function tampil_tarif(){
-    	 $query = $this->m_data->getTarif();
+         $query = $this->m_data->getTarif();
         $data['data'] = null;
         if($query){
          $data['data'] =  $query;
@@ -115,55 +128,99 @@ class  Admin extends CI_Controller {
             'id_tarif'  => $this->input->post('id_tarif'),
             'harga' => $this->input->post('harga'),
         );
-        $data = $this->m_data->Insert('tb_tarif', $data);
+        $data = $this->m_data->insert('tb_tarif', $data);
         redirect('Admin/tampil_tarif');
     }
 
-    function edit_tarif($id_tarif=0){
-        $this->load->model('m_data');
-        $ks = $this->m_data->getTarif('tb_user', array('id_user' => $id_user));
-        $data = array(
-            'platnomor' => $ks[0]['platnomor'],
-            'merk_motor' => $ks[0]['merk_motor'],
-            'warna' => $ks[0]['warna'],
-            'tahunterbit' => $ks[0]['tahunterbit']
-            
-            );
-        $this->load->view('admin/kasir_edit', $data);
-        $this->load->view('admin/header_admin');
-        $this->load->view('admin/footer_admin'); 
-    }
+    
+    function edit_tarif($id_tarif){
+        $query = $this->m_data->read('tb_tarif', array('id_tarif' => $id_tarif), null, null);
 
-    public function update_tarif(){
-        $id_kasir = $_POST['id_user'];
-        $nama = $_POST['nama'];
-        $password = $_POST['password'];
+        foreach($query->result() as $result){
         $data = array(
-            'id_user' => $id_kasir,
-            'nama_user' => $nama,
-            'password' => $password,
+            'id_tarif'=>$result->id_tarif,
+            'id_merk'=>$result->id_merk,
+            'id_jam'=>$result->id_jam,
+            'harga'=>$result->harga);
+        }
+
+        $data['data'] = $this->m_data->GetData('tb_merk');
+        $data['jam'] = $this->m_data->GetData('tb_jam');    
+    
+        $this->load->view('admin/tarif_edit', $data);
+        $this->load->view('admin/header_admin');
+        $this->load->view('admin/footer_admin');
+    }
+    //getData from databases
+    // public function getData($id){
+    //     $query = $this->Crud->read('barang', array('idbarang'=>$id), null, null);
+    //     foreach($query->result() as $result){
+    //         $data = array('nama'=>$result->nama,'idkategori'=>$result->idkategori,'harga'=>$result->harga, 'stock'=>$result->stock, 'deskripsi'=>$result->deskripsi, 'foto'=>$result->foto);
+    //         $data['foto'] = '<img src="'.base_url('assets/img/barang/'.$result->foto.'').'" class="img-responsive img-thumbnail" style="max-width:200px;max-height:200px">';
+    //         $data['fotoNameOnly'] = $result->foto;
+    //     }
+    //     header('Content-Type: application/json');
+    //     echo json_encode($data);
+    // }
+
+     /*public function update_motor(){
+        $platnomor =$_POST['platnomor'];
+        $id_merk = $_POST['id_merk'];
+        $warna = $_POST['warna'];
+        $tahunterbit = $_POST['tahunterbit'];
+
+        $data = array(
+            'platnomor' => $platnomor,
+            'id_merk' => $id_merk,
+            'warna' => $warna,
+            'tahunterbit' => $tahunterbit
          );
+
         $where = array(
-            'id_user' => $id_kasir,
+            'platnomor' => $platnomor
         );
+
         $this->load->model('m_data');
-        $res = $this->m_data->Update('tb_user', $data, $where);
+        $res = $this->m_data->Update('tb_kendaraan', $data, $where);
         if ($res>0) {
-            redirect('Admin/tampil_kasir');
+            redirect('Admin/tampil_motor');
+        }
+    }*/
+    public function update_tarif(){
+        $id_tarif =$_POST['id_tarif'];
+        $id_jam = $_POST['id_jam'];
+        $id_merk= $_POST['id_merk'];
+        $harga = $_POST['harga'];
+
+        $data = array(
+            'id_tarif' => $id_tarif,
+            'id_jam' => $id_jam,
+            'id_merk' => $id_merk,
+            'harga' => $harga
+         );
+
+        $where = array(
+            'id_tarif' => $id_tarif
+        );
+
+        $this->load->model('m_data');
+        $res = $this->m_data->Update('tb_tarif', $data, $where);
+        if ($res>0) {
+            redirect('Admin/tampil_tarif');
         }
     }
 
-   
-
-    public function delete_tarif($id_user){
-        $id_user = array('id_user' => $id_user);
+    public function delete_tarif($id_tarif){
+        $id_tarif = array('id_tarif' => $id_tarif);
         $this->load->model('m_data');
-        $this->m_data->Delete('tb_user', $id_user);
-        redirect('Admin/tampil_kasir');
+        $this->m_data->Delete('tb_tarif', $id_tarif);
+        redirect('Admin/tampil_tarif');
     }
 
+
+
     function tampil_laporan(){
-    	$this->load->view('admin/header_admin');
+        $this->load->view('admin/header_admin');
         $this->load->view('admin/laporan');
         $this->load->view('admin/footer_admin');
     }
@@ -226,6 +283,13 @@ class  Admin extends CI_Controller {
         $this->load->model('m_data');
         $this->m_data->Delete('tb_user', $id_user);
         redirect('Admin/tampil_kasir');
+    }
+
+
+    function pelanggan_edit(){
+        $this->load->view('admin/header_admin');
+        $this->load->view('admin/pelanggan_edit');
+        $this->load->view('admin/footer_admin');
     }
 
     
@@ -301,17 +365,7 @@ class  Admin extends CI_Controller {
         redirect('Admin/tampil_pelanggan');
     }
 
-    public function insert_motor(){
-        $this->load->model('m_data');
-        $data = array(
-            'platnomor' => $this->input->post('platnomor'),
-            'id_merk' => $this->input->post('merek'),
-            'warna' => $this->input->post('warna'),
-            'tahunterbit' => $this->input->post('tahun_terbit') 
-             );
-        $data = $this->m_data->insert('tb_kendaraan', $data);
-        redirect('Admin/tampil_motor');
-    }
+   
 
    function motor_tambah(){
         $data['data'] = $this->m_data->GetData('tb_kendaraan');
@@ -328,24 +382,50 @@ class  Admin extends CI_Controller {
         redirect('Admin/tampil_motor');
     }
     
-    function edit($platnomor=0){
-       $this->load->model('m_data');
-        $ks = $this->m_data->GetWhere('tb_kendaraan', array('platnomor' => $platnomor));
+    public function insert_motor(){
         $data = array(
-            'platnomor' => $ks[0]['platnomor'],
-            'id_merk' => $ks[0]['id_merk'],
-            'warna' => $ks[0]['warna'],
-            'tahunterbit' => $ks[0]['tahunterbit'],
-            'status' => $ks[0]['status'],
-            
-            );
-        $this->load->view('admin/header_admin');
-        $this->load->view('Admin/motor_edit',$data);
-        $this->load->view('admin/footer_admin');
+            'platnomor' => $this->input->post('platnomor'),
+            'id_merk' => $this->input->post('id_merk'),
+            'warna' => $this->input->post('warna'),
+            'tahunterbit' => $this->input->post('tahun_terbit') 
+             );
+        $data = $this->m_data->insert('tb_kendaraan', $data);
+        redirect('Admin/tampil_motor');
     }
 
-     function update_motor($platnomor){
-        $platnomor = $_POST['platnomor'];
+    function edit_motor($platnomor){
+        $query = $this->m_data->read('tb_kendaraan', array('platnomor' => $platnomor), null, null);
+
+        foreach($query->result() as $result){
+        $data = array(
+            'platnomor'=>$result->platnomor,
+            'id_merk'=>$result->id_merk,
+            'warna'=>$result->warna,
+            'tahunterbit'=>$result->tahunterbit);
+        }
+
+        $data['data'] = $this->m_data->GetData('tb_kendaraan');
+        $data['merk'] = $this->m_data->GetData('tb_merk');
+        
+    
+        $this->load->view('admin/motor_edit', $data);
+        $this->load->view('admin/header_admin');
+        $this->load->view('admin/footer_admin');
+    }
+    //getData from databases
+    // public function getData($id){
+    //     $query = $this->Crud->read('barang', array('idbarang'=>$id), null, null);
+    //     foreach($query->result() as $result){
+    //         $data = array('nama'=>$result->nama,'idkategori'=>$result->idkategori,'harga'=>$result->harga, 'stock'=>$result->stock, 'deskripsi'=>$result->deskripsi, 'foto'=>$result->foto);
+    //         $data['foto'] = '<img src="'.base_url('assets/img/barang/'.$result->foto.'').'" class="img-responsive img-thumbnail" style="max-width:200px;max-height:200px">';
+    //         $data['fotoNameOnly'] = $result->foto;
+    //     }
+    //     header('Content-Type: application/json');
+    //     echo json_encode($data);
+    // }
+
+     public function update_motor(){
+        $platnomor =$_POST['platnomor'];
         $id_merk = $_POST['id_merk'];
         $warna = $_POST['warna'];
         $tahunterbit = $_POST['tahunterbit'];
@@ -354,12 +434,13 @@ class  Admin extends CI_Controller {
             'platnomor' => $platnomor,
             'id_merk' => $id_merk,
             'warna' => $warna,
-            'tahunterbit' => $tahunterbit,
-            'status'=>"bebas"
+            'tahunterbit' => $tahunterbit
          );
+
         $where = array(
-            'platnomor' => $platnomor,
+            'platnomor' => $platnomor
         );
+
         $this->load->model('m_data');
         $res = $this->m_data->Update('tb_kendaraan', $data, $where);
         if ($res>0) {

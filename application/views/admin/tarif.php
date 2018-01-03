@@ -27,6 +27,7 @@
              <tr>
             <center>
                 <th>No</th>
+                <th>ID Tarif </th>
                 <th>Merk Motor</th>
                 <th>Jam</th>                
                 <th>Harga</th>
@@ -41,12 +42,13 @@
             $no = 1;
             foreach ($data as $value) {?>
             <td><?php echo $no++; ?></td>
-            <td><?php echo $value->MERK_MOTOR; ?></td>
-             <td><?php echo $value->JAM?></td>
-            <td><?php echo $value->HARGA; ?></td>
+            <td><?php echo $value->id_tarif; ?></td>
+            <td><?php echo $value->merk; ?></td>
+             <td><?php echo $value->jam; ?></td>
+            <td><?php echo $value->harga; ?></td>
             <td style="text-align:center">
-                <a href="#" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i></a>
-                <a href="#" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="<?php echo base_url()."index.php/Admin/delete_tarif/".$value->id_tarif; ?>" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <a href="<?php echo base_url()."index.php/Admin/edit_tarif/".$value->id_tarif; ?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
             </td>
             </tr>
             <?php } ?>

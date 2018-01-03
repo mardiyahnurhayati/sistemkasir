@@ -19,7 +19,7 @@
         <div class="panel panel-default">                        
             <!-- /.panel-heading -->
         <div class="panel-body">
-            <div class="text-right"><a  href="<?php echo base_url()."Admin/motor_tambah";?>"class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
+            <div class="text-right"><a  href="<?php echo base_url()."index.php/Admin/motor_tambah";?>"class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
             <br>
 
         <table class="table table-bordered table-striped" id="mytable">
@@ -41,15 +41,17 @@
         <?php 
             $no = 1;
             foreach($motor as $value){?>
+
+
             <td><?php echo $no++ ?></td>
-            <td><?php echo $value->PLATNOMOR; ?> </td>
-            <td><?php echo $value->MERK_MOTOR; ?> </td>
-            <td><?php echo $value->WARNA; ?> </td>
-            <td><?php echo $value->TAHUNTERBIT; ?> </td>
+            <td><?php echo $value->platnomor; ?> </td>
+            <td><?php echo $value->merk; ?> </td>
+            <td><?php echo $value->warna; ?> </td>
+            <td><?php echo $value->tahunterbit; ?> </td>
 
             <td style="text-align:center">
-                <a href="<?php echo base_url()."Admin/delete_motor/".$value->PLATNOMOR; ?>" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i></a>
-                <a href="<?php echo base_url()."Admin/edit/".$value->PLATNOMOR;;?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                <a href="<?php echo base_url()."index.php/Admin/delete_motor/".$value->platnomor; ?>" class="btn btn-warning"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <a href="<?php echo base_url()."index.php/Admin/edit_motor/".$value->platnomor; ?>" class="btn btn-info"><i class="fa fa-pencil" aria-hidden="true"></i></a>
             </td>
             </tr>
             <?php } ?>

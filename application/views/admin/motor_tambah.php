@@ -32,7 +32,7 @@
            <div class="form-group row">
             <label for="plat" class="col-sm-2 col-form-label">Merek Motor</label>
             <div class="col-sm-10">
-              <input list="list_motor" type="text"  name="merek" class="form-control" id="merek" placeholder="">
+              <input list="list_motor" type="text"  name="id_merk" class="form-control" id="merek" placeholder="">
               <datalist id="list_motor">
                 <?php foreach ($merk as $value) {?>
                   

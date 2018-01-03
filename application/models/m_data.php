@@ -62,12 +62,33 @@ class M_data extends CI_Model{
         return $query->result_array();
     }
 
+
     function getKendaraan(){
-        $this->db->select("tb_kendaraan.PLATNOMOR,tb_merk.MERK_MOTOR,tb_kendaraan.WARNA,tb_kendaraan.TAHUNTERBIT");
+        $this->db->select("tb_kendaraan.PLATNOMOR AS platnomor ,tb_merk.MERK_MOTOR AS merk ,tb_kendaraan.WARNA AS warna ,tb_kendaraan.TAHUNTERBIT AS tahunterbit");
         $this->db->from('tb_merk');
         $this->db->join('tb_kendaraan', 'tb_kendaraan.id_merk = tb_merk.id_merk');
         $query = $this->db->get();
         return $query->result();
+       }
+
+       //function readKendaraan($table, $cond, $ordField, $ordType){
+     //$this->db->select("tb_kendaraan.PLATNOMOR,tb_merk.MERK_MOTOR,tb_kendaraan.WARNA,tb_kendaraan.TAHUNTERBIT");
+        //$this->db->from($table);
+        //$this->db->join('tb_kendaraan', $table.'.id_merk = tb_kendaraan.id_merk');
+    //$query = $this->db->get();
+
+    //return $query;
+  //}
+
+     function read($table, $cond, $ordField, $ordType){
+        if($cond!=null){
+          $this->db->where($cond);
+        }
+        if($ordField!=null){
+          $this->db->order_by($ordField, $ordType);
+        }
+        $query = $this->db->get($table);
+        return $query;
     }
 
     function getTransaksi(){
@@ -80,7 +101,7 @@ class M_data extends CI_Model{
     }
 
     function getTarif(){
-        $this->db->select("tb_tarif.ID_TARIF,tb_merk.MERK_MOTOR,tb_jam.JAM,tb_tarif.HARGA");
+        $this->db->select("tb_tarif.ID_TARIF AS id_tarif,tb_merk.MERK_MOTOR AS merk, tb_jam.JAM AS jam, tb_tarif.HARGA AS harga");
         $this->db->from('tb_merk');
         $this->db->join('tb_tarif', 'tb_tarif.id_merk = tb_merk.id_merk');
         $this->db->join('tb_jam','tb_jam.id_jam=tb_tarif.id_jam');
@@ -89,9 +110,20 @@ class M_data extends CI_Model{
     }
 
     function get_rincian_tarif($id){
-       $this->db->join('tb_jam j', 'j.id_jam=t.id_jam');
-       $this->db->where('t.id_tarif',$id);
-      return $this->db->get('tb_tarif t')->row();
+      $this->db->where('id_tarif',$id);
+    return $this->db->get('tb_tarif')->row();
+    }
+
+
+    function getHari(){
+      $this->db->select("C.ID_TRANSAKSI, A.NAMA, C.PLATNOMOR,C.JAM_RENTAL,C.JAM_KEMBALI, C.TGL_TRANSAKSI, C.TGL_KEMBALI, C.TRANSAKSI_TOTAL, C.TRANSAKSI_STATUS");
+      $this->db->from('tb_pelanggan AS A');// I use aliasing make joins easier
+      $this->db->join('tb_transaksi AS C', 'A.id_pelanggan = C.ID_pelanggan');
+      $this->db->join('tb_kendaraan AS B', 'C.platnomor = B.platnomor');
+      $this->db->where('MY-DATE_FIELD >= NOW() - INTERVAL 1 DAY');
+      $query = $this->db->get();
+      return $query->result();
+
     }   
 }
 ?>

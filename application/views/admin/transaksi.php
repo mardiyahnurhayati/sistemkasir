@@ -28,7 +28,7 @@
             <form class="form-inline pull-left">
                  <div class="col-sm-5">
                     <select class="selectpicker">
-                        <option>Hari Ini</option>
+                        <option></option>
                         <option>Minggu Ini</option>
                         <option>Bulan Ini</option>
                     </select>
